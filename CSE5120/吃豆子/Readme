@@ -1,0 +1,81 @@
+
+The code and resources provided in this homework are drawn from UC Berkeley which are part of their recent offering. Thanks, and credit to the authors (particularly Dan Klein, Pieter Abbeel, John DeNero and others) at UC Berkeley for making these projects available to the public. 
+Pacman lives in a shiny blue world of twisting corridors and tasty round treats. Navigating this world efficiently will be Pacman’s first step in mastering his domain.
+The code for this project consists of several Python files, some of which you will need to read and understand in order to complete the assignment, and some of which you can ignore. You can download all the code and supporting files as a zip folder from homework 1 link given on Blackboard.
+Your homework is based on two parts as given below:
+1.	Code implemented for search algorithms in given search.py file (in specific sections as indicated in detail below)
+2.	A brief report on what you did for each algorithm (i.e., how you implemented with screenshots from autograder script given in the folder) 
+
+File Name	Description
+search.py	Where all of your search algorithms will reside.
+searchAgents.py	Where all of your search-based agents will reside.
+pacman.py	The main file that runs Pacman games. This file describes a Pacman GameState type, which you use in this project.
+game.py	The logic behind how the Pacman world works. This file describes several supporting types like AgentState, Agent, Direction, and Grid.
+util.py	Useful data structures for implementing search algorithms.
+After downloading the code, unzipping it, and changing to the directory, you should be able to play a game of Pacman by running the following command.
+python pacman.py
+pacman.py supports a number of options (e.g. --layout or -l). You can see the list of all options and their default values via python pacman.py -h.
+All the commands you will need in this homework can be found in the file commands.txt for easy copying and pasting. You can use Spyder (installed through Anaconda from week 1 Thursday’s lecture) or other IDE for this work.
+Files to Edit and Submit: You will need to edit and submit (search.py) and (searchAgents.py only if required) files to implement your algorithms. Once you have completed the homework, you are welcome to run automated tests using an autograder.py given in the folder before you submit them for accuracy. You do not need to submit autograder.py file in your code submission but will need to test your algorithms with autograder.py to copy screenshots in your report. Please do not change the other files in this distribution or submit any of the original files other than these files.
+
+Academic Dishonesty: Your code will be checked against other submissions in the class for logical redundancy. If you copy someone else’s code and submit it with minor changes, they will be detected easily, so please do not try that and submit your own work only. In case of cheating, the University’s academic policies on cheating and dishonesty will strictly apply which may result from the deduction in your grade to expulsion.
+
+Getting Help: If you are having difficulty in implementing the algorithms from the pseudocodes provided in this homework, contact the course staff for help. Office hours and Slack are there for your support. If you are not able to attend office hours, then please inform your instructor to arrange for additional time. The intent is to make these projects rewarding and instructional, not frustrating and demoralizing. You can either complete this homework on your own or discuss the problem and collaborate with another member of the class (or different section). Please clearly acknowledge and mention your group member in your homework report submission who you will collaborate with in this homework. Your report and program (search.py file) will be separately submitted by yourself on Blackboard irrespective of your collaboration with your group member. Group discussions are encouraged but copying of programs is NOT recommended. Programming based on your own skills is encouraged.
+
+ 
+Figure 1: Breadth First and Uniform Cost search algorithms - pseudocode
+
+ 
+Figure 2: Tree Search algorithm pseudocode 
+Tasks for homework 1
+
+1.	 Understanding the code base (not graded)
+In searchAgents.py, you will find a fully implemented SearchAgent, which plans out a path through Pacman's world and then executes that path step-by-step. The search algorithms for formulating a plan are not implemented: your task is to implement them.
+First, test that the SearchAgent is working correctly by running the following command.
+python pacman.py -l tinyMaze -p SearchAgent -a fn=tinyMazeSearch
+The command above tells the SearchAgent to use tinyMazeSearch as its search algorithm. This algorithm is implemented in search.py. Pacman should navigate the maze successfully.
+Now you will need to implement different search algorithms to help Pacman plan its routes and reach its goal. Remember that a search node must contain not only a state but also the information necessary to reconstruct the path (plan) which gets to that state from the start state.
+Important note: All of your search functions need to return a list of actions that will lead the agent from the start to the goal. These actions all have to be legal moves (valid directions, no moving through walls).
+Important note: Make sure to use the Stack, Queue and PriorityQueue data structures provided to you in util.py! These data structure implementations have particular properties that are required for compatibility with the autograder.
+Hint: The algorithms we covered so far are quite similar. DFS, BFS, UCS, and A* algorithms differ only in the details of how the fringe (or frontier) is managed. So, concentrate on getting DFS right and the rest should be relatively straightforward. Indeed, one possible implementation requires only a single generic search method which is configured with an algorithm-specific queuing strategy. (Your implementation need not be of this form to receive full credit.)
+2.	 Depth First Search (1%)
+Implement the depth-first search (DFS) algorithm in the depthFirstSearch function in search.py.
+Your code should be able to solve these tasks quickly.
+1.	python pacman.py -l tinyMaze -p SearchAgent
+2.	python pacman.py -l mediumMaze -p SearchAgent
+3.	python pacman.py -l bigMaze -z .5 -p SearchAgent
+
+Evaluation: Run the following command to test your solution: python autograder.py -q q1. The first 4 test cases are basic test cases. Together they account for 0.8%. If any one of them fails, the fifth test case will not be evaluated. The fifth test case accounts for 0.2%.
+
+3.	 Breadth First Search (1%)
+Implement the breadth-first search (BFS) algorithm in the breadthFirstSearch function in search.py.
+Your code should be able to solve these tasks quickly.
+1.	python pacman.py -l mediumMaze -p SearchAgent -a fn=bfs
+2.	python pacman.py -l bigMaze -p SearchAgent -a fn=bfs -z .5
+Evaluation: Run the following command to test your solution: python autograder.py -q q2. The first 4 test cases are basic test cases. Together they account for 0.8%. If any one of them fails, the fifth test case will not be evaluated. The fifth test case accounts for 0.2%.
+4.	Uniform Cost Search (1%)
+BFS tries to minimize the number of actions taken, but not necessarily the least-cost path. By varying the cost function, the Pacman can be encouraged to explore different paths. By changing the cost function, we can encourage Pacman to find different paths. For example, we can charge more for dangerous steps in ghost-ridden areas or less for steps in food-rich areas.
+Implement the uniform-cost search (UCS) algorithm in the uniformCostSearch function in search.py (the agents and the cost functions are implemented for you).
+You should now observe successful behavior in all three of the following layouts.
+1.	python pacman.py -l mediumMaze -p SearchAgent -a fn=ucs
+2.	python pacman.py -l mediumDottedMaze -p StayEastSearchAgent
+3.	python pacman.py -l mediumScaryMaze -p StayWestSearchAgent
+Evaluation: Run the following command to test your solution: python autograder.py -q q3. The first 4 test cases are basic test cases. Together they account for 0.8%. If any one of them fails, the fifth test case will not be evaluated. The fifth test case accounts for 0.2%.
+5.	A* Search (2%)
+Implement the A* search algorithm in the aStarSearch function in search.py. A* takes a heuristic function as an argument.
+You need to test your A* implementation on the original problem of finding a path through a maze to a fixed position using the Manhattan distance heuristic (already implemented).
+python pacman.py -l bigMaze -z .5 -p SearchAgent -a fn=astar, heuristic= manhattanHeuristic
+
+Evaluation: Run the following command to test your solution: python autograder.py -q q4. The first 5 test cases are basic test cases. Together they account for 1.5%. If any one of them fails, the fifth test case will not be evaluated. The fifth test case accounts for 0.5%.
+
+6.	Finding all the Corners (not graded)
+The real power of A* will only be apparent with a more challenging search problem. In the corner mazes of this test case, each of the four corners has a dot. Our new search problem is to find the shortest path through the maze that touches all four corners.
+Note: For some mazes the shortest path does not always go to the closest food first.
+The code in CornersProblem class of searchAgents.py contains the code to accomplish this and is written already. Your search agent should now solve the following tasks.
+1.	python pacman.py -l tinyCorners -p SearchAgent -a fn=bfs,prob=CornersProblem
+2.	python pacman.py -l mediumCorners -p SearchAgent -a fn=bfs,prob=CornersProblem
+Evaluation: Run the following command to test your solution: python autograder.py -q q5. The code will be tested on two layouts.
+7.	Corners Problem Heuristic (not graded)
+Implement a non-trivial, consistent heuristic for the CornersProblem in cornersHeuristic. The tighter your heuristic (as a lower bound on the true cost-to-go), the fewer nodes it will need to expand. Feel free to change the code in CornersProblem if required but make sure that it passes autograder for Task 5, otherwise no marks shall be awarded for this task. Now your search agent should solve this task.
+python pacman.py -l mediumCorners -p SearchAgent -a fn=aStarSearch,prob=CornersProblem,heuristic=cornersHeuristic -z 0.5
+Evaluation: Our heuristic must be a non-trivial, consistent heuristic. Our heuristic should return 0 at every goal state and never return a negative value. Run the following command to test your solution: python autograder.py -q q6. The first 3 test cases are basic test cases. 
